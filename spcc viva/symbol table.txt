@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#include <vector>
+#include <string.h>
+using namespace std;
+int main()
+{
+    int c1 = 0, sr = 0;
+    vector<int> lc,lit1, lit2, lit3;
+    vector<vector<string>> sym;
+    vector<vector<string>> v{
+        {"", "START", "200", " "},
+        {"", "MOVER", "AREG", "DATA"},
+        {"", "MOVER", "BREG", "=1"},
+        {"", "ADD", "AREG", "BREG"},
+        {"", "LTORG", " ", " "},
+        {"DATA", "DC", "5", " "},
+        {"ST  ", "DS", "10", " "},
+        {"", "ORIGIN", "ST+20", " "},
+        {"", "ADD", "CREG", "=2"},
+        {"", "END", " ", " "}};
+    int num = stoi(v[0][2]), ST = 205;
+    if (v[0][1] == "START")
+    {
+        lc.push_back(num);
+    }for (int i = 0; i < v.size(); i++)
+    {
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            cout << v[i][j] << "\t ";
+        }
+        if(v[i][1]=="LTORG" || v[i][1]=="END")
+        {
+            lit3.push_back(num); }
+       
+        if (v[i][1] == "MOVER" || v[i][1] == "ADD" || v[i][1] == "LTORG" || v[i][1] == "DC" || v[i][1] == "END")
+        {
+            lc.push_back(num);
+            num++;
+        }
+        if (v[i][1] == "DS")
+        {
+            lc.push_back(num);
+            num += stoi(v[i][2]);
+        }

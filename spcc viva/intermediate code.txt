@@ -1,0 +1,78 @@
+symbol = {
+    'B': [0, 203, 1],
+    'A': [1, 204, 1],
+    'X': [2, 202, 1],
+    'L': [3, 205, 1],
+    'C': [4, 7, 1]
+}
+
+
+literal = {
+    '=3': 0,
+    '=4': 1
+}
+
+registers = {
+    'AREG': '01',
+    'BREG': '02',
+    'CREG': '03'
+}
+
+program = [
+    ('', 'START', '200', ''),
+    ('', 'MOVER', 'AREG', 'B'),
+    ('', 'MOVER', 'BREG', 'A'),
+    ('X', 'ADD', 'AREG', '=3'),
+    ('B', 'DC', '5', ''),
+    ('A', 'DC', '4', ''),
+    ('L', 'DS', '2', ''),
+    ('', 'ADD', 'BREG', '=4'),
+    ('', 'LTORG', '0', ''),
+    ('', 'ADD', 'CREG', 'C'),
+    ('C', 'EQU', '7', ''),
+    ('', 'END', '0', '')
+]
+
+operand = {
+    'IS': [('MOVER', '04'), ('ADD', '02')],
+    'AD': [('START', '00'), ('END', '02'), ('LTORG', '05'), ('EQU', '03')],
+    'DL': [('DC', '02'), ('DS', '01')]
+}
+
+for statement in program:
+    label, inst, op1, op2 = statement
+    curr_code = ''
+    if op1[0] == '=':
+        type1 = 'L'
+    elif op1 in ['AREG', 'BREG', 'CREG']:
+        type1 = 'RG'
+        op1 = registers[op1]
+    elif op1.isdigit():
+        type1 = 'C'
+    else:
+        type1 = 'S'
+        op1 = symbol[op1][0]
+
+    type2 = ''
+    if op2:
+        if op2[0] == '=':
+            type2 = 'L'
+            op2 = literal[op2]
+        elif op2 in ['AREG', 'BREG', 'CREG']:
+            type2 = 'RG'
+            op2 = registers[op2]
+        elif op2.isdigit():
+            type2 = 'C'
+        elif op2.isalpha():
+            type2 = 'S'
+            op2 = symbol[op2][0]
+
+    if label:
+        curr_code += f'(S, {symbol[label][0]})'
+    for key, value in operand.items():
+        for i in value:
+            if i[0] == inst:
+                curr_code += f'({key}, {i[1]}) ({type1}, {op1})'
+                if op2:
+                    curr_code += f'({type2}, {op2})'
+    print(curr_code)
