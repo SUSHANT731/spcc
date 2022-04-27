@@ -42,3 +42,57 @@ int main()
             lc.push_back(num);
             num += stoi(v[i][2]);
         }
+        if (v[i][1] == "ORIGIN")
+        {
+            lc.push_back(num);
+            string a = (v[i][2]).substr(3, 5);
+            num = ST + stoi(a);
+        }
+        cout << lc[i];
+        cout << endl;
+    }
+   
+    //symbol:
+   
+    cout << "--- SYMBOL TABLE ---" << endl;
+    cout << "\tname\taddress\tlength" << endl;
+    for (int i = 0; i < v.size(); i++)
+    {
+        string a = (v[i][0]);
+        if (a.size() != 0)
+        {
+            cout << i -5 << "\t";
+            cout << a << "\t";
+            if (a == "DATA")
+            {
+                cout << lc[i] << "\t";
+            }
+            else
+            {
+                cout << lc[i] << "\t";
+            }
+            cout << "1\t";
+            cout << endl;
+        }
+    }
+    for (int i = 0; i < sym.size(); i++)
+    {
+        for (int j = 0; j < sym[i].size(); j++)
+        {
+            cout << sym[i][j] << " ";
+        }
+        cout << endl;
+    }
+   
+   
+    for (int i = 0; i < sym.size(); i++)
+    {
+        for (int j = 0; j < sym[i].size(); j++)
+        {
+            cout << sym[i][j] << " ";
+        }
+        cout << endl;
+    }
+   
+return 0;
+}
